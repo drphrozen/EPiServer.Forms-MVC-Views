@@ -1,0 +1,23 @@
+﻿@*
+    ====================================
+    Version: 4.19.0.0 Modified: 20181010
+    ====================================
+*@
+@using EPiServer.Forms.Helpers.Internal
+@using EPiServer.Forms.Implementation.Elements
+@model TextboxElementBlock
+
+@{
+    var formElement = Model.FormElement;
+    var labelText = Model.Label;
+}
+
+@using (Html.BeginElement(Model, new {@class = "FormTextbox" + Model.GetValidationCssClasses(), data_f_type = "textbox"}))
+{
+    <label for="@formElement.Guid" class="Form__Element__Caption">@labelText</label>
+    <input name="@formElement.ElementName" id="@formElement.Guid" type="text" class="FormTextbox__Input"
+           placeholder="@Model.PlaceHolder" value="@Model.GetDefaultValue()" @Model.AttributesString data-f-datainput/>
+
+    @Html.ValidationMessageFor(Model)
+    @Model.RenderDataList()
+}

@@ -1,0 +1,28 @@
+﻿@*
+    ====================================
+    Version: 4.24.4.0 Modified: 20190514
+    ====================================
+*@
+@using EPiServer.Shell.Web.Mvc.Html
+@using EPiServer.Forms
+@using EPiServer.Forms.Helpers.Internal
+@using EPiServer.Forms.Implementation.Elements
+@model CaptchaElementBlock
+@{
+    var formElement = Model.FormElement;
+    var labelText = Model.Label;
+}
+@using (Html.BeginElement(Model, new {@class = "FormCaptcha", @data_f_type = "captcha"}))
+{
+    <label class="Form__Element__Caption" for="@formElement.Guid">
+        @labelText
+    </label>
+    <button name="submit" type="submit" data-f-captcha-image-handler="@formElement.Guid" value="@SubmitButtonType.RefreshCaptcha.ToString()"
+            class="FormExcludeDataRebind FormCaptcha__Refresh" data-f-captcha-refresh>
+        @Model.RefreshButtonLabel
+    </button>
+    <img src="@Model.CaptchaImageHandler" alt="@Html.Translate("/contenttypes/captchaelementblock/captchaimagealt")" class="FormCaptcha__Image" @Model.AttributesString data-f-captcha-image/>
+    <input id="@formElement.Guid" name="@formElement.ElementName" type="text" class="FormTextbox__Input FormCaptcha__Input FormHideInSummarized" @Model.AttributesString data-f-datainput/>
+
+    @Html.ValidationMessageFor(Model)
+}

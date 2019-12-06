@@ -1,0 +1,25 @@
+﻿@*
+    ====================================
+    Version: 4.9.1. Modified: 20171030
+    ====================================
+*@
+
+@using System.Web.Mvc
+@using EPiServer.Shell.Web.Mvc.Html
+@using EPiServer.Forms.Helpers.Internal
+@using EPiServer.Forms.Implementation.Elements
+@model FileUploadElementBlock
+
+@{  var formElement = Model.FormElement;
+    var labelText = Model.Label;
+    var allowMultiple = Model.AllowMultiple ? "multiple" : string.Empty;
+    var fileExtensions = !string.IsNullOrEmpty(Model.FileExtensions) ? Model.FileExtensions : null;
+}
+
+@using(Html.BeginElement(Model, new { @class="FormFileUpload" + Model.GetValidationCssClasses(), data_f_type="fileupload" })) {
+    <label for="@formElement.Guid" class="Form__Element__Caption">@labelText</label>
+    <input name="@formElement.ElementName" id="@formElement.Guid" type="file" class="FormFileUpload__Input" @allowMultiple @fileExtensions @Model.AttributesString data-f-datainput />
+    <div class="FormFileUpload__PostedFile" data-f-postedFile></div>
+    @Html.ValidationMessageFor(Model)
+ }
+
